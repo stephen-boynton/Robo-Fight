@@ -3,6 +3,7 @@ import HealthDisplay from "../components/HealthDisplay";
 import Robot from "../components/Robot";
 import FightLog from "../components/FightLog";
 import Moves from "../components/Moves";
+import { punchChanceToHit, bigPunchChanceToHit, blockChanceToHit } from "../fightHelpers"
 
 export default class FightView extends Component {
   render() {
