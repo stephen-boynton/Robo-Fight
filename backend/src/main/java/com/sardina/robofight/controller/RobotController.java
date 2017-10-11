@@ -1,9 +1,8 @@
 package com.sardina.robofight.controller;
 
-
-import com.sardina.robofight.model.Player;
 import com.sardina.robofight.model.Robot;
-import org.springframework.stereotype.Controller;
+import com.sardina.robofight.service.RobotService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +14,8 @@ import java.util.List;
 @RestController
 public class RobotController {
 
-    //TODO: add: @Autowired RobotService robotservice
+    @Autowired
+    RobotService robotService;
 
     @RequestMapping(value = "/api/index", method = RequestMethod.GET)
     public List<Robot> initialRoboGroup() {
