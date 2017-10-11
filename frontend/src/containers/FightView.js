@@ -7,7 +7,7 @@ import Moves from "../components/Moves";
 export default class FightView extends Component {
   render() {
     return (
-      <div>
+      <div className="FightView">
         <HealthDisplay />
         <Robot />
         <FightLog />
