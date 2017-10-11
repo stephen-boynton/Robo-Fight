@@ -3,11 +3,12 @@ import '../styles/App.css';
 
 class Moves extends Component {
   render() {
+    console.log(this.props);
     let moves = this.props.moves
     return (
       <div className="Moves">
         {moves.map((move)=>{
-          return <button value={move} oncClick={this.props._handleMove(move)}>{move}</button>
+          return <button value={move} key={move} onClick={this.props.handleClick}>{move}</button>
         })}
       </div>
     );
