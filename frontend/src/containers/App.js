@@ -10,10 +10,10 @@ class App extends Component {
     return;
     <div className="App">
       <Switch>
-        <Route />
-        <Route />
-        <Route />
-        <Route />
+        <Route exact path="/fight" component={FightView} />
+        <Route exact path="/gameover" component={GameOverView} />
+        <Route exact path="/topscores" component={ScoresView} />
+        <Route exact path="/" component={HomeView} />
       </Switch>
     </div>;
   }
