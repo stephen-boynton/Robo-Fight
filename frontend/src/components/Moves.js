@@ -7,7 +7,7 @@ class Moves extends Component {
     return (
       <div className="Moves">
         {moves.map((move)=>{
-          return <button value={move} oncClick={handleMove(move)}>{move}</button>
+          return <button value={move} oncClick={this.props._handleMove(move)}>{move}</button>
         })}
       </div>
     );

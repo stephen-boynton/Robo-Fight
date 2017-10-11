@@ -23,7 +23,7 @@ class FightLog extends Component {
       <div className="FightLog">
         <ul className="logUl">
           {this.state.log.map((item)=>{
-            <FightLogItem text={item}/>
+            // <FightLogItem text={item}/>
           })}
         </ul>
       </div>

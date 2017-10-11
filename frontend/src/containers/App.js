@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import FightView from "./FightView"
+import GameOverView from "./GameOverView"
+import ScoresView from "./ScoresView"
+import HomeView from "./HomeView"
 import "../styles/App.css";
 
 class App extends Component {
@@ -7,7 +11,7 @@ class App extends Component {
     player: ""
   };
   render() {
-    return;
+    return(
     <div className="App">
       <Switch>
         <Route exact path="/fight" component={FightView} />
@@ -15,7 +19,8 @@ class App extends Component {
         <Route exact path="/topscores" component={ScoresView} />
         <Route exact path="/" component={HomeView} />
       </Switch>
-    </div>;
+    </div>
+  )
   }
 }
 
