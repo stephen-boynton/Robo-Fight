@@ -41,6 +41,7 @@ export default class FightView extends Component {
         } else {
           console.log("Missed");
         }
+        console.log(this.state.playerTurn)
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
@@ -55,6 +56,7 @@ export default class FightView extends Component {
         } else {
           console.log("Blocked");
         }
+        break;
     }
   };
 

@@ -24,14 +24,16 @@ body {
 }
 
 .homeTitle h1 { 
-  font-size: 50px;
+  font-size: 60px;
   color: #00ffbf;
+  text-shadow: 0px 4px 0px #ff00b2;
 }
 
 .homeTitle h3 { 
   font-size: 30px;
-  color: hsl(318, 100%, 50%);
+  color: #ff00b2;
   font-weight: 400;
+  text-shadow: 0px 2px 0px #00ffbf;
 }
 
 .form {
@@ -64,7 +66,7 @@ body {
 }
 
 .form-button {
-  padding: 10px;
+  padding: 10px 18px;
   color: hsl(318, 100%, 50%);
   background-color: transparent;
   border: 1px solid #00ffbf;
@@ -73,9 +75,6 @@ body {
 }
 
 .form-button:hover {
-  padding: 10px;
-  color: hsl(318, 100%, 50%);
-  background-color: transparent;
   border: 3px solid hsl(318, 100%, 50%);
   transition: .4s;
 }

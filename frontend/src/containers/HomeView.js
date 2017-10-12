@@ -10,9 +10,9 @@ export default class HomeView extends Component {
           <h3>Redo This</h3>
         </div>
         
-        <form className="form">
+        <form className="form" autocomplete='off'>
             <label  className="username-label">What is your name, oh great deleter?</label>
-            <input type="username" className="username" id="username"/>
+            <input type="username" className="username" id="username"  />
             <button type="button" className="form-button" id="button">Start</button>
         </form>
         <div className="instructions-container">

@@ -3,7 +3,6 @@ import '../styles/App.css';
 
 class Moves extends Component {
   render() {
-    console.log(this.props);
     let moves = this.props.moves
     return (
       <div className="Moves">
