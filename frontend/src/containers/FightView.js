@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HealthDisplay from "../components/HealthDisplay";
 import Robot from "../components/Robot";
 import FightLog from "../components/FightLog";
+import RoundOverlay from "../components/RoundOverlay";
 import Moves from "../components/Moves";
 import {
   punchChanceToHit,
@@ -18,7 +19,7 @@ export default class FightView extends Component {
         hp: 20,
         maxHp: 20,
         image: "",
-        name: this.props.playerName
+        name: this.props.player
       },
       {
         fighterType: "robot",
@@ -30,44 +31,64 @@ export default class FightView extends Component {
     ],
     moves: ["Chop", "Roundhouse Kick", "Block"],
     playerTurn: true,
-    score: 0
+    wins: 0,
+    game: {
+      round: 1,
+      rounds: 10
+    }
+  };
+
+  ////////////// Handler Functions  //////////////////////
+
+  _handleClick = evt => {
+    this._handleMove(evt.target.value);
   };
 
   _handleMove = moveName => {
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
-          console.log("You used", moveName);
+          
+          console.log("chop")
         } else {
-          console.log("Missed");
+
         }
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
-          console.log("You used", moveName);
+
         } else {
-          console.log("Missed");
+
         }
         break;
       case "Block":
         if (blockChanceToHit()) {
-          console.log("You used", moveName);
+
         } else {
-          console.log("Blocked");
+
         }
+        break;
     }
+    this.setState((prevState)=>{
+      return {playerTurn: !prevState.playerTurn}
+    });
   };
 
-  _handleClick = evt => {
-    this._handleMove(evt.target.value);
-  };
+  componentDidUpdate(){
+    console.log(this.state.playerTurn)
+  }
 
   render() {
+
     return (
       <div className="FightView">
-        <HealthDisplay players={this.state.fighters} />
+        <RoundOverlay
+          image={this.state.fighters[1].image}
+          round={this.state.game.round}
+        />
+        <HealthDisplay players={this.state.fighters} status={this.state.game} />
         <Robot robot={this.state.fighters[1]} />
-        <FightLog />
+        {/* <FightLog /> */}
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
     );
