@@ -7,16 +7,16 @@ class FightLog extends Component {
     log: []
   }
 
-  componentDidUpdate(prevProps, prevState){
-    let newLog = prevState.log;
-    newLog.unshift(this.props.fightText)
-    if(newLog.length > 5){
-      newLog.pop();
-    }
-    this.setState({
-      log: newLog
-    })
-  }
+  // componentDidUpdate(prevProps, prevState){
+  //   let newLog = prevState.log;
+  //   newLog.unshift(this.props.fightText)
+  //   if(newLog.length > 5){
+  //     newLog.pop();
+  //   }
+  //   this.setState({
+  //     log: newLog
+  //   })
+  // }
 
   render() {
     return (

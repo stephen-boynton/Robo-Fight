@@ -31,7 +31,7 @@ export default class FightView extends Component {
     moves: ["Chop", "Roundhouse Kick", "Block"],
     playerTurn: true,
     score: 0
-  };
+  };  
 
   ////////////// Handler Functions  //////////////////////
 
@@ -43,7 +43,6 @@ export default class FightView extends Component {
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
-          
           console.log("chop")
         } else {
 
@@ -70,7 +69,7 @@ export default class FightView extends Component {
   };
 
   componentDidUpdate(){
-    console.log(this.state.playerTurn)
+    console.log("player turn", this.state.playerTurn)
   }
 
   render() {
@@ -79,7 +78,7 @@ export default class FightView extends Component {
       <div className="FightView">
         <HealthDisplay players={this.state.fighters} />
         <Robot robot={this.state.fighters[1]} />
-        {/* <FightLog /> */}
+        {<FightLog />}
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
     );
