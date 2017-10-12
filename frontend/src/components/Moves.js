@@ -15,7 +15,7 @@ class Moves extends Component {
       <div className="Moves">
         {moves.map(move => {
           return (
-            <button value={move} key={move} onClick={this.props.handleClick}>
+            <button value={move} key={move} onClick={(this.props.turn ? this.props.handleClick : null )} className="moveBtn">
               {move}
             </button>
           );
