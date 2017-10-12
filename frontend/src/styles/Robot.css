@@ -1,0 +1,11 @@
+.Robot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px 100px 0px;
+}
+
+.Robot h3 {
+  color: white;
+  font-size: 40px;
+}

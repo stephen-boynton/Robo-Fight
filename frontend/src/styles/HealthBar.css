@@ -1,0 +1,6 @@
+.HealthBar progress {
+  appearance: none;
+  width: 200px;
+  height: 20px;
+  background-color: red;
+}
