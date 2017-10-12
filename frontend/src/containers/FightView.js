@@ -19,7 +19,7 @@ export default class FightView extends Component {
         hp: 20,
         maxHp: 20,
         image: "",
-        name: this.props.playerName
+        name: this.props.player
       },
       {
         fighterType: "robot",
