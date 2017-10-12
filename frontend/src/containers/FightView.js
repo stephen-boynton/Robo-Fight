@@ -45,24 +45,30 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
+    let turn = this.state.playerTurn
+    let fighter = turn ? 0 : 1;
+    let oldHp = this.state.fighters[fighter].hp
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
-          console.log("chop")
+          this.state.fighters[fighter].hp = oldHp - 1;
+          this.forceUpdate();
         } else {
 
         }
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
-
+          this.state.fighters[fighter].hp = oldHp - 2;
+          this.forceUpdate();
         } else {
 
         }
         break;
       case "Block":
         if (blockChanceToHit()) {
-
+          this.state.fighters[fighter].hp = oldHp - 1;
+          this.forceUpdate();
         } else {
 
         }
@@ -74,7 +80,7 @@ export default class FightView extends Component {
   };
 
   componentDidUpdate(){
-    console.log("player turn", this.state.playerTurn)
+    console.log("fighters", this.state)
   }
 
   render() {
