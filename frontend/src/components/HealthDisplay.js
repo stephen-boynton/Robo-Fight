@@ -7,7 +7,7 @@ export default function HealthDisplay(props) {
   return (
     <div className="HealthDisplay">
       <HealthBar player={props.players[0]} key={props.players[0].name} />
-      <GameStatus status={props.status} />
+      <GameStatus current={props.current} total={props.total} />
       <HealthBar player={props.players[1]} key={props.players[1].name} />
     </div>
   );

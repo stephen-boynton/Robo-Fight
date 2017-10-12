@@ -38,10 +38,8 @@ export default class FightView extends Component {
     moves: ["Chop", "Roundhouse Kick", "Block"],
     playerTurn: true,
     wins: 0,
-    game: {
-      round: 1,
-      rounds: 10
-    }
+    currentRound: 1,
+    totalRounds: 10
   };
 
   ////////////// Handler Functions  //////////////////////
@@ -62,7 +60,7 @@ export default class FightView extends Component {
       return (
         <RoundOverlay
           image={this.state.fighters[1].image}
-          round={this.state.game.round}
+          round={this.state.currentRound}
         />
       );
     } else {
@@ -75,9 +73,9 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
-    let turn = this.state.playerTurn
+    let turn = this.state.playerTurn;
     let fighter = turn ? 0 : 1;
-    let oldHp = this.state.fighters[fighter].hp
+    let oldHp = this.state.fighters[fighter].hp;
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
@@ -101,20 +99,25 @@ export default class FightView extends Component {
         }
         break;
     }
+    this._handleEndOfRound();
     this.setState(prevState => {
       return { playerTurn: !prevState.playerTurn };
     });
   };
 
-  componentDidUpdate(){
-    console.log("fighters", this.state)
+  componentDidUpdate() {
+    console.log("fighters", this.state);
   }
 
   render() {
     return (
       <div className="FightView">
         {this._handleNewRound()}
-        <HealthDisplay players={this.state.fighters} status={this.state.game} />
+        <HealthDisplay
+          players={this.state.fighters}
+          current={this.state.currentRound}
+          total={this.state.totalRounds}
+        />
         <Robot robot={this.state.fighters[1]} />
         {<FightLog />}
         <Moves moves={this.state.moves} handleClick={this._handleClick} />

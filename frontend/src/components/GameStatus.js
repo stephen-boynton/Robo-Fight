@@ -5,7 +5,7 @@ export default function GameStatus(props) {
   return (
     <div className="GameStatus">
       <p>
-        Round: {props.status.round}/{props.status.rounds}
+        Round: {props.current}/{props.total}
       </p>
     </div>
   );
