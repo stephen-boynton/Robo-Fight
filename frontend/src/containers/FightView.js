@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HealthDisplay from "../components/HealthDisplay";
 import Robot from "../components/Robot";
 import FightLog from "../components/FightLog";
+import RoundOverlay from "../components/RoundOverlay";
 import Moves from "../components/Moves";
 import {
   punchChanceToHit,
@@ -30,7 +31,11 @@ export default class FightView extends Component {
     ],
     moves: ["Chop", "Roundhouse Kick", "Block"],
     playerTurn: true,
-    score: 0
+    wins: 0,
+    game: {
+      round: 1,
+      rounds: 10
+    }
   };
 
   _handleMove = moveName => {
@@ -65,7 +70,11 @@ export default class FightView extends Component {
   render() {
     return (
       <div className="FightView">
-        <HealthDisplay players={this.state.fighters} />
+        <RoundOverlay
+          image={this.state.fighters[1].image}
+          round={this.state.game.round}
+        />
+        <HealthDisplay players={this.state.fighters} status={this.state.game} />
         <Robot robot={this.state.fighters[1]} />
         <FightLog />
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
