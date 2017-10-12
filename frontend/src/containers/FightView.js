@@ -7,7 +7,8 @@ import Moves from "../components/Moves";
 import {
   punchChanceToHit,
   bigPunchChanceToHit,
-  blockChanceToHit
+  blockChanceToHit,
+  enemyTurn
 } from "../helpers/fightHelpers";
 import {
   oneSecondDelay,
@@ -52,6 +53,12 @@ export default class FightView extends Component {
     });
   };
 
+  _enemyTurn = async () => {
+    await oneSecondDelay();
+    let enemyMove = enemyTurn();
+    this._handleMove(enemyMove);
+  }
+
   componentDidMount() {
     // fake fetch timing
     this._fakeFetch();
@@ -76,38 +83,39 @@ export default class FightView extends Component {
 
   _handleMove = moveName => {
     let turn = this.state.playerTurn
-    let fighter = turn ? 0 : 1;
+    let fighter = turn ? 1 : 0;
     let oldHp = this.state.fighters[fighter].hp
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
           this.state.fighters[fighter].hp = oldHp - 1;
+          this.state.playerTurn = !turn;
+          console.log(this.state.fighters[fighter].fighterType + "was hit by Chop");
           this.forceUpdate();
-        } else {
-        }
+        } 
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
           this.state.fighters[fighter].hp = oldHp - 2;
+          this.state.playerTurn = !turn;
+          console.log(this.state.fighters[fighter].fighterType + "was hit by RK");
           this.forceUpdate();
-        } else {
         }
         break;
       case "Block":
         if (blockChanceToHit()) {
-          this.state.fighters[fighter].hp = oldHp - 1;
+          this.state.fighters[fighter].hp = oldHp;
+          this.state.playerTurn = !turn;
           this.forceUpdate();
-        } else {
         }
         break;
     }
-    this.setState(prevState => {
-      return { playerTurn: !prevState.playerTurn };
-    });
   };
 
   componentDidUpdate(){
-    console.log("fighters", this.state)
+    if(this.state.playerTurn === false){
+      this._enemyTurn();
+    }
   }
 
   render() {
@@ -117,7 +125,7 @@ export default class FightView extends Component {
         <HealthDisplay players={this.state.fighters} status={this.state.game} />
         <Robot robot={this.state.fighters[1]} />
         {<FightLog />}
-        <Moves moves={this.state.moves} handleClick={this._handleClick} />
+        <Moves moves={this.state.moves} turn={this.state.playerTurn} handleClick={this._handleClick} />
       </div>
     );
   }
