@@ -53,11 +53,7 @@ export default class FightView extends Component {
 
   _handleClick = evt => {
     this._handleMove(evt.target.value);
-<<<<<<< HEAD
   };
-=======
-  }
->>>>>>> 3168def3daa663fbc0bde83e2f7b5badaa971b28
 
   render() {
     return (
