@@ -88,19 +88,13 @@ export default class FightView extends Component {
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
-<<<<<<< HEAD
 
-          console.log("chop")
-        } else {
-
-        }
-=======
           this.state.fighters[fighter].hp = oldHp - 1;
           this.state.playerTurn = !turn;
           console.log(this.state.fighters[fighter].fighterType + "was hit by Chop");
           this.forceUpdate();
-        } 
->>>>>>> 0a726f6f6bd9daed56c3b9dedd4c7011f829a0c6
+        }
+
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
@@ -128,7 +122,7 @@ export default class FightView extends Component {
 
   render() {
     return (
-      <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
+      // <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
       <div className="FightView">
         {this._handleNewRound()}
         <HealthDisplay players={this.state.fighters} status={this.state.game} />
