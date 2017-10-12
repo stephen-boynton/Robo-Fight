@@ -7,7 +7,6 @@
   align-items: center;
   justify-content: center;
   background-color: black;
-  z-index: -1;
 }
 
 .RoundOverlay p {
