@@ -20,44 +20,34 @@ import "../styles/FightView.css";
 export default class FightView extends Component {
   state = {
     newRound: true,
-    fighters: [
-      {
-        fighterType: "player",
-        hp: 20,
-        maxHp: 20,
-        image: "",
-        name: this.props.player
-      },
-      {
-        fighterType: "robot",
-        hp: 4,
-        maxHp: 4,
-        image: "https://robohash.org/IGX.png?set=set1",
-        name: "MAXIMUM_Max"
-      }
-    ],
+    player: { hp: 20, maxHp: 20, image: "", name: this.props.player },
+    robot: {
+      hp: 4,
+      maxHp: 4,
+      image: "https://robohash.org/IGX.png?set=set1",
+      name: "MAXIMUM_Max"
+    },
     moves: ["Chop", "Roundhouse Kick", "Block"],
     playerTurn: true,
     wins: 0,
-    game: {
-      round: 1,
-      rounds: 10
-    }
+    currentRound: 1,
+    totalRounds: 10,
+    movieAudio: ""
   };
 
   ////////////// Handler Functions  //////////////////////
   _fakeFetch = async () => {
     await threeSecondDelay();
-    this.setState({
-      newRound: false
-    });
+    this.setState({ newRound: false });
   };
 
   _enemyTurn = async () => {
     await oneSecondDelay();
     let enemyMove = enemyTurn();
     this._handleMove(enemyMove);
-  }
+    await oneSecondDelay();
+    this.setState({ playerTurn: true });
+  };
 
   componentDidMount() {
     // fake fetch timing
@@ -68,8 +58,8 @@ export default class FightView extends Component {
     if (this.state.newRound) {
       return (
         <RoundOverlay
-          image={this.state.fighters[1].image}
-          round={this.state.game.round}
+          image={this.state.robot.image}
+          round={this.state.currentRound}
         />
       );
     } else {
@@ -78,9 +68,12 @@ export default class FightView extends Component {
   };
 
   _handleClick = evt => {
-    this._handleMove(evt.target.value);
+    if (this.state.playerTurn) {
+      this._handleMove(evt.target.value);
+    }
   };
 
+<<<<<<< HEAD
   _handleMove = moveName => {
     let turn = this.state.playerTurn
     let fighter = turn ? 1 : 0;
@@ -112,23 +105,133 @@ export default class FightView extends Component {
         }
         break;
     }
+=======
+  _damagePlayer = () => {
+    const playerHp = this.state.player.hp;
+    this.setState({
+      player: {
+        ...this.state.player,
+        hp: playerHp - 1
+      }
+    });
   };
 
-  componentDidUpdate(){
-    if(this.state.playerTurn === false){
-      this._enemyTurn();
+  _critPlayer = () => {
+    const playerHp = this.state.player.hp;
+    this.setState({
+      player: {
+        ...this.state.player,
+        hp: playerHp - 2
+      }
+    });
+  };
+
+  _damageRobot = () => {
+    const roboHp = this.state.robot.hp;
+    this.setState({
+      robot: {
+        ...this.state.robot,
+        hp: roboHp - 1
+      },
+      playerTurn: false
+    });
+  };
+
+  _critRobot = () => {
+    const roboHp = this.state.robot.hp;
+    this.setState({
+      robot: {
+        ...this.state.robot,
+        hp: roboHp - 2
+      },
+      playerTurn: false
+    });
+>>>>>>> 57595c7c1cab24c006527497c94df0ad181091cd
+  };
+
+  _handleMove = moveName => {
+    if (this.state.playerTurn) {
+      switch (moveName) {
+        case "Chop":
+          if (punchChanceToHit()) {
+            this._damageRobot();
+            this._enemyTurn();
+            break;
+          } else {
+            //miss
+            this._enemyTurn();
+            break;
+          }
+        case "Roundhouse Kick":
+          if (bigPunchChanceToHit()) {
+            this._critRobot();
+            this._enemyTurn();
+            break;
+          } else {
+            //miss
+            this._enemyTurn();
+            break;
+          }
+        case "Block":
+          if (blockChanceToHit()) {
+            this._damageRobot();
+            this._enemyTurn();
+            break;
+          } else {
+            //miss
+            this._enemyTurn();
+            break;
+          }
+      }
+    } else if (!this.state.playerTurn) {
+      //Robots turn -------------------------------------------------
+      switch (moveName) {
+        case "Chop":
+          if (punchChanceToHit()) {
+            this._damagePlayer();
+            break;
+          } else {
+            //miss
+            break;
+          }
+        case "Roundhouse Kick":
+          if (bigPunchChanceToHit()) {
+            this._critPlayer();
+            break;
+          } else {
+            //miss
+            break;
+          }
+        case "Block":
+          if (blockChanceToHit()) {
+            this._damagePlayer();
+            break;
+          } else {
+            //miss
+            break;
+          }
+      }
     }
-  }
+  };
 
   render() {
     return (
       // <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
       <div className="FightView">
         {this._handleNewRound()}
-        <HealthDisplay players={this.state.fighters} status={this.state.game} />
-        <Robot robot={this.state.fighters[1]} />
+        <HealthDisplay
+          player={this.state.player}
+          robot={this.state.robot}
+          current={this.state.currentRound}
+          total={this.state.totalRounds}
+        />
+        <Robot robot={this.state.robot} />
         {<FightLog />}
-        <Moves moves={this.state.moves} turn={this.state.playerTurn} handleClick={this._handleClick} />
+        <Moves
+          moves={this.state.moves}
+          turn={this.state.playerTurn}
+          handleClick={this._handleClick}
+        />
       </div>
     );
   }
