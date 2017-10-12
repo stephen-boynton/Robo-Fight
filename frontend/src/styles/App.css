@@ -31,6 +31,7 @@ body {
 .homeTitle h3 { 
   font-size: 30px;
   color: hsl(318, 100%, 50%);
+  font-weight: 400;
 }
 
 .form {
