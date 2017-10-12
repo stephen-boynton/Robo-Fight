@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
-import '../styles/App.css';
+import React, { Component } from "react";
+import "../styles/Moves.css";
 
 class Moves extends Component {
   render() {
     console.log(this.props);
-    let moves = this.props.moves
+    let moves = this.props.moves;
     return (
       <div className="Moves">
-        {moves.map((move)=>{
-          return <button value={move} key={move} onClick={this.props.handleClick}>{move}</button>
+        {moves.map(move => {
+          return (
+            <button value={move} key={move} onClick={this.props.handleClick}>
+              {move}
+            </button>
+          );
         })}
       </div>
     );

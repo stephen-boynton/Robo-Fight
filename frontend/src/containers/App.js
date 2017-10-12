@@ -24,8 +24,16 @@ class App extends Component {
             path="/fight"
             component={() => <FightView playerName={this.state.player} />}
           />
-          <Route exact path="/gameover" component={GameOverView} />
-          <Route exact path="/topscores" component={ScoresView} />
+          <Route
+            exact
+            path="/gameover"
+            component={GameOverView}
+          />
+          <Route
+            exact
+            path="/topscores"
+            component={ScoresView}
+          />
           <Route
             exact
             path="/"

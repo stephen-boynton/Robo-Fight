@@ -8,19 +8,26 @@ import {
   bigPunchChanceToHit,
   blockChanceToHit
 } from "../fightHelpers";
+import "../styles/FightView.css";
 
 export default class FightView extends Component {
   state = {
-    player: {
-      hp: 20,
-      maxHp: 20,
-      name: this.props.playerName
-    },
-    robot: {
-      hp: 4,
-      maxHp: 4,
-      name: "Whatever"
-    },
+    fighters: [
+      {
+        fighterType: "player",
+        hp: 20,
+        maxHp: 20,
+        image: "",
+        name: this.props.playerName
+      },
+      {
+        fighterType: "robot",
+        hp: 4,
+        maxHp: 4,
+        image: "https://robohash.org/IGX.png?set=set1",
+        name: "Whatever"
+      }
+    ],
     moves: ["Chop", "Roundhouse Kick", "Block"],
     playerTurn: true,
     score: 0
@@ -58,8 +65,8 @@ export default class FightView extends Component {
   render() {
     return (
       <div className="FightView">
-        {/* <HealthDisplay /> */}
-        <Robot />
+        <HealthDisplay players={this.state.fighters} />
+        <Robot robot={this.state.fighters[1]} />
         <FightLog />
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
