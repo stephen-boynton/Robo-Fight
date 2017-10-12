@@ -14,12 +14,14 @@
 .homeTitle h1 {
   font-size: 50px;
   color: #00ffbf;
+  text-shadow: 0px 4px 0px #ff00b2;
 }
 
 .homeTitle h3 {
   font-size: 30px;
-  color: hsl(318, 100%, 50%);
+  color: #ff00b2;
   font-weight: 400;
+  text-shadow: 0px 1px 0px #00ffbf;
 }
 
 .form {
