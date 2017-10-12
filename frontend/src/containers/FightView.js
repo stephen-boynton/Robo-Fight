@@ -75,20 +75,28 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
+    let turn = this.state.playerTurn
+    let fighter = turn ? 0 : 1;
+    let oldHp = this.state.fighters[fighter].hp
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
-          console.log("chop");
+          this.state.fighters[fighter].hp = oldHp - 1;
+          this.forceUpdate();
         } else {
         }
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
+          this.state.fighters[fighter].hp = oldHp - 2;
+          this.forceUpdate();
         } else {
         }
         break;
       case "Block":
         if (blockChanceToHit()) {
+          this.state.fighters[fighter].hp = oldHp - 1;
+          this.forceUpdate();
         } else {
         }
         break;
@@ -98,8 +106,8 @@ export default class FightView extends Component {
     });
   };
 
-  componentDidUpdate() {
-    console.log(this.state.playerTurn);
+  componentDidUpdate(){
+    console.log("fighters", this.state)
   }
 
   render() {
@@ -108,7 +116,7 @@ export default class FightView extends Component {
         {this._handleNewRound()}
         <HealthDisplay players={this.state.fighters} status={this.state.game} />
         <Robot robot={this.state.fighters[1]} />
-        {/* <FightLog /> */}
+        {<FightLog />}
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
     );
