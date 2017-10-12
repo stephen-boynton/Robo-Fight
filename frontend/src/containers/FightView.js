@@ -55,7 +55,7 @@ export default class FightView extends Component {
     await oneSecondDelay();
     let enemyMove = enemyTurn();
     this._handleMove(enemyMove);
-  }
+  };
 
   componentDidMount() {
     // fake fetch timing
@@ -80,29 +80,27 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
-<<<<<<< HEAD
     let turn = this.state.playerTurn;
     let fighter = turn ? 0 : 1;
     let oldHp = this.state.fighters[fighter].hp;
-=======
-    let turn = this.state.playerTurn
-    let fighter = turn ? 1 : 0;
-    let oldHp = this.state.fighters[fighter].hp
->>>>>>> 0a726f6f6bd9daed56c3b9dedd4c7011f829a0c6
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
           this.state.fighters[fighter].hp = oldHp - 1;
           this.state.playerTurn = !turn;
-          console.log(this.state.fighters[fighter].fighterType + "was hit by Chop");
+          console.log(
+            this.state.fighters[fighter].fighterType + "was hit by Chop"
+          );
           this.forceUpdate();
-        } 
+        }
         break;
       case "Roundhouse Kick":
         if (bigPunchChanceToHit()) {
           this.state.fighters[fighter].hp = oldHp - 2;
           this.state.playerTurn = !turn;
-          console.log(this.state.fighters[fighter].fighterType + "was hit by RK");
+          console.log(
+            this.state.fighters[fighter].fighterType + "was hit by RK"
+          );
           this.forceUpdate();
         }
         break;
@@ -114,14 +112,13 @@ export default class FightView extends Component {
         }
         break;
     }
-    this._handleEndOfRound();
     this.setState(prevState => {
       return { playerTurn: !prevState.playerTurn };
     });
   };
 
-  componentDidUpdate(){
-    if(this.state.playerTurn === false){
+  componentDidUpdate() {
+    if (this.state.playerTurn === false) {
       this._enemyTurn();
     }
   }
@@ -137,7 +134,11 @@ export default class FightView extends Component {
         />
         <Robot robot={this.state.fighters[1]} />
         {<FightLog />}
-        <Moves moves={this.state.moves} turn={this.state.playerTurn} handleClick={this._handleClick} />
+        <Moves
+          moves={this.state.moves}
+          turn={this.state.playerTurn}
+          handleClick={this._handleClick}
+        />
       </div>
     );
   }
