@@ -8,12 +8,15 @@ import "../styles/App.css";
 
 class App extends Component {
   state = {
-    player: ""
+    player: "",
+    enterName: true
   };
   _handlePlayerName = playerName => {
-    this.setState = {
-      player: playerName
-    };
+    this.setState({
+      player: playerName,
+      enterName: false
+    });
+    console.log(this.state.player);
   };
   render() {
     return (
@@ -22,22 +25,19 @@ class App extends Component {
           <Route
             exact
             path="/fight"
-            component={() => <FightView playerName={this.state.player} />}
+            component={() => <FightView player={this.state.player} />}
           />
-          <Route
-            exact
-            path="/gameover"
-            component={GameOverView}
-          />
-          <Route
-            exact
-            path="/topscores"
-            component={ScoresView}
-          />
+          <Route exact path="/gameover" component={GameOverView} />
+          <Route exact path="/topscores" component={ScoresView} />
           <Route
             exact
             path="/"
-            component={() => <HomeView player={this._handlePlayerName} />}
+            component={() => (
+              <HomeView
+                enterName={this.state.enterName}
+                player={this._handlePlayerName}
+              />
+            )}
           />
         </Switch>
       </div>
