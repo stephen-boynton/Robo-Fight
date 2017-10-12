@@ -3,10 +3,93 @@
   margin: 0;
   padding: 0;
   font-family: 'Roboto Mono', monospace;
+  color: white;
 }
 
 body {
-  background-color: grey;
+  background-image: linear-gradient(0deg, #420042, #013b3b);
+}
+
+.HomeView {
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  padding-top: 5em;
+  align-items: center;
+}
+
+.homeTitle {
+  text-align: center;
+}
+
+.homeTitle h1 { 
+  font-size: 50px;
+  color: #00ffbf;
+}
+
+.homeTitle h3 { 
+  font-size: 30px;
+  color: hsl(318, 100%, 50%);
+}
+
+.form {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.username-label {
+  margin-bottom: 1em;
+}
+
+.username {
+  margin-bottom: 1em;
+  padding: 10px;
+  color: hsl(318, 100%, 50%);
+  background-color: transparent;
+  border: 1px solid #00ffbf;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: .4s;
+}
+
+.username:focus {
+  outline: none;
+  border: 3px solid hsl(318, 100%, 50%);
+  transition: .4s;
+}
+
+.form-button {
+  padding: 10px;
+  color: hsl(318, 100%, 50%);
+  background-color: transparent;
+  border: 1px solid #00ffbf;
+  transition: .4s;
+  border-radius: 5px;
+}
+
+.form-button:hover {
+  padding: 10px;
+  color: hsl(318, 100%, 50%);
+  background-color: transparent;
+  border: 3px solid hsl(318, 100%, 50%);
+  transition: .4s;
+}
+
+.form-button:focus {
+  outline: none;
+}
+
+.form-button:active {
+  transition: none;
+  color: #00ffbf;
+}
+
+.instructions-container {
+  margin-top: 3em;
 }
 
 .Moves button {
