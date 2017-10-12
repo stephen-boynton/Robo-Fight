@@ -25,9 +25,7 @@ export default class FightView extends Component {
     score: 0
   }
 
-
   _handleMove = (moveName) => {
-
     switch (moveName) {
       case "Chop":
         if(punchChanceToHit()){
@@ -55,7 +53,6 @@ export default class FightView extends Component {
   _handleClick = (evt) => {
     this._handleMove(evt.target.value);
   }
-
 
   render() {
     return (

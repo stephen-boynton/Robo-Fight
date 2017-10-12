@@ -4,3 +4,38 @@
   padding: 0;
   font-family: 'Roboto Mono', monospace;
 }
+
+body {
+  background-color: grey;
+}
+
+.Moves button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  font-size: 12px;
+  border: 1px solid black;
+}
+
+.ScoreView {
+  font-size: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.ScoreView h2 {
+  margin-bottom: 20px;
+}
+
+.scoreUl {
+  list-style: none;
+}
+
+.scoreLi {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 200px;
+  justify-content: space-between;
+}
