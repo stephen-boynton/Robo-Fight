@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 
 
 export default class HomeView extends Component {
+  constructor() {
+    super();
+
+}
+  handleSubmit = (evt) => {
+    evt.preventDefualt();
+    // console.log(evt.target);
+    this.props.player
+    fetch('./fight')
+  }
+
   render(){
     return(
       <div className="HomeView">
