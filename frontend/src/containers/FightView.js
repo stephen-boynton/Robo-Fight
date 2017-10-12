@@ -8,11 +8,17 @@ import {
   punchChanceToHit,
   bigPunchChanceToHit,
   blockChanceToHit
-} from "../fightHelpers";
+} from "../helpers/fightHelpers";
+import {
+  oneSecondDelay,
+  twoSecondDelay,
+  threeSecondDelay
+} from "../helpers/delayHelpers";
 import "../styles/FightView.css";
 
 export default class FightView extends Component {
   state = {
+    newRound: true,
     fighters: [
       {
         fighterType: "player",
@@ -26,7 +32,7 @@ export default class FightView extends Component {
         hp: 4,
         maxHp: 4,
         image: "https://robohash.org/IGX.png?set=set1",
-        name: "Whatever"
+        name: "MAXIMUM_Max"
       }
     ],
     moves: ["Chop", "Roundhouse Kick", "Block"],
@@ -39,6 +45,30 @@ export default class FightView extends Component {
   };
 
   ////////////// Handler Functions  //////////////////////
+  _fakeFetch = async () => {
+    await threeSecondDelay();
+    this.setState({
+      newRound: false
+    });
+  };
+
+  componentDidMount() {
+    // fake fetch timing
+    this._fakeFetch();
+  }
+
+  _handleNewRound = () => {
+    if (this.state.newRound) {
+      return (
+        <RoundOverlay
+          image={this.state.fighters[1].image}
+          round={this.state.game.round}
+        />
+      );
+    } else {
+      return;
+    }
+  };
 
   _handleClick = evt => {
     this._handleMove(evt.target.value);
@@ -54,7 +84,6 @@ export default class FightView extends Component {
           this.state.fighters[fighter].hp = oldHp - 1;
           this.forceUpdate();
         } else {
-
         }
         break;
       case "Roundhouse Kick":
@@ -62,7 +91,6 @@ export default class FightView extends Component {
           this.state.fighters[fighter].hp = oldHp - 2;
           this.forceUpdate();
         } else {
-
         }
         break;
       case "Block":
@@ -70,12 +98,11 @@ export default class FightView extends Component {
           this.state.fighters[fighter].hp = oldHp - 1;
           this.forceUpdate();
         } else {
-
         }
         break;
     }
-    this.setState((prevState)=>{
-      return {playerTurn: !prevState.playerTurn}
+    this.setState(prevState => {
+      return { playerTurn: !prevState.playerTurn };
     });
   };
 
@@ -84,13 +111,9 @@ export default class FightView extends Component {
   }
 
   render() {
-
     return (
       <div className="FightView">
-        <RoundOverlay
-          image={this.state.fighters[1].image}
-          round={this.state.game.round}
-        />
+        {this._handleNewRound()}
         <HealthDisplay players={this.state.fighters} status={this.state.game} />
         <Robot robot={this.state.fighters[1]} />
         {<FightLog />}
