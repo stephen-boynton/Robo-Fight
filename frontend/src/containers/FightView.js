@@ -38,36 +38,48 @@ export default class FightView extends Component {
     }
   };
 
-  _handleMove = moveName => {
-    switch (moveName) {
-      case "Chop":
-        if (punchChanceToHit()) {
-          console.log("You used", moveName);
-        } else {
-          console.log("Missed");
-        }
-        break;
-      case "Roundhouse Kick":
-        if (bigPunchChanceToHit()) {
-          console.log("You used", moveName);
-        } else {
-          console.log("Missed");
-        }
-        break;
-      case "Block":
-        if (blockChanceToHit()) {
-          console.log("You used", moveName);
-        } else {
-          console.log("Blocked");
-        }
-    }
-  };
+  ////////////// Handler Functions  //////////////////////
 
   _handleClick = evt => {
     this._handleMove(evt.target.value);
   };
 
+  _handleMove = moveName => {
+    switch (moveName) {
+      case "Chop":
+        if (punchChanceToHit()) {
+          
+          console.log("chop")
+        } else {
+
+        }
+        break;
+      case "Roundhouse Kick":
+        if (bigPunchChanceToHit()) {
+
+        } else {
+
+        }
+        break;
+      case "Block":
+        if (blockChanceToHit()) {
+
+        } else {
+
+        }
+        break;
+    }
+    this.setState((prevState)=>{
+      return {playerTurn: !prevState.playerTurn}
+    });
+  };
+
+  componentDidUpdate(){
+    console.log(this.state.playerTurn)
+  }
+
   render() {
+
     return (
       <div className="FightView">
         <RoundOverlay
@@ -76,7 +88,7 @@ export default class FightView extends Component {
         />
         <HealthDisplay players={this.state.fighters} status={this.state.game} />
         <Robot robot={this.state.fighters[1]} />
-        <FightLog />
+        {/* <FightLog /> */}
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
     );
