@@ -48,7 +48,7 @@ export default class FightView extends Component {
     switch (moveName) {
       case "Chop":
         if (punchChanceToHit()) {
-          
+
           console.log("chop")
         } else {
 
@@ -81,6 +81,7 @@ export default class FightView extends Component {
   render() {
 
     return (
+      <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
       <div className="FightView">
         <RoundOverlay
           image={this.state.fighters[1].image}
