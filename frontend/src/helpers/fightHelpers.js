@@ -27,6 +27,6 @@ export function blockChanceToHit(){
 
 export function enemyTurn(){
   let number = Math.floor(Math.random()*3);
-  const moves = ["Chop", "Roundhouse Kick", "Block"]
+  const moves = ["Chop", "Boltbuster", "Block"]
   return moves[1]
 }
