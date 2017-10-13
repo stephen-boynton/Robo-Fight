@@ -28,7 +28,7 @@ export default class FightView extends Component {
       image: "https://robohash.org/IGX.png?set=set1",
       name: "MAXIMUM_Max"
     },
-    moves: ["Chop", "BoltBreaker", "Block"],
+    moves: ["Chop", "Boltbuster", "Block"],
     playerTurn: true,
     wins: 0,
     currentRound: 1,
@@ -67,6 +67,17 @@ export default class FightView extends Component {
     }
   };
 
+  _handleClick = evt => {
+    if (this.state.playerTurn) {
+      this._handleMove(evt.target.value);
+    const playSong = (move) => {
+      const audio = document.getElementById('audio')
+      audio.setAttribute("src", `/fx/${move}.mp3`)
+      console.log("audio", audio);
+      audio.play()
+    }
+    playSong(evt.target.value);
+    }
   _isRobotDefeated = () => {
     return this.state.robot.hp <= 0;
   };
@@ -169,7 +180,7 @@ export default class FightView extends Component {
             this._enemyTurn();
             break;
           }
-        case "Roundhouse Kick":
+        case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critRobot();
             if (this._isRobotDefeated()) {
@@ -212,7 +223,7 @@ export default class FightView extends Component {
             });
             break;
           }
-        case "Roundhouse Kick":
+        case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critPlayer();
             break;
@@ -236,6 +247,8 @@ export default class FightView extends Component {
   // Render method ====================================
   render() {
     return (
+      <div>
+      <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
       <div className="FightView">
         {this._handleNewRound()}
         <HealthDisplay
@@ -248,6 +261,8 @@ export default class FightView extends Component {
         <FightLog message={this.state.fightLog} />
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
+    </div>
+
     );
   }
 }

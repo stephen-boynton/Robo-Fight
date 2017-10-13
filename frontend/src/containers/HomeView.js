@@ -46,7 +46,8 @@ export default class HomeView extends Component {
         </div>
         {this._handleStartGame()}
         <div className="instructions-container">
-          <p>Instructions go here...</p>
+          <p>Do you hate robots? Are you ready for REVENGE? Enter a username and press start.
+          Kick bot by choosing an attack method of choice. Remember ALL ROBOTS MUST DIE! Are you ready?</p>
         </div>
       </div>
     );
