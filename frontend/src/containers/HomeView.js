@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import "../styles/HomeView.css";
 
 export default class HomeView extends Component {
+  state = {
+    titleMusic: "/fx/title.mp3"
+  };
   _getPlayerName = event => {
     event.preventDefault();
     this.setState({ enterName: false });
@@ -30,7 +33,10 @@ export default class HomeView extends Component {
       return (
         <form className="form" onSubmit={this._getPlayerName}>
           <button type="button" className="form-button" id="button">
-            <Link to="/fight"> START </Link>
+            <Link className="start" to="/fight">
+              {" "}
+              START{" "}
+            </Link>
           </button>
         </form>
       );
@@ -40,6 +46,8 @@ export default class HomeView extends Component {
   render() {
     return (
       <div className="HomeView">
+        <audio src={this.state.titleMusic} autoPlay />
+
         <div className="homeTitle">
           <h1>ROBO-FIGHT 4</h1>
           <h3>Redo This</h3>
