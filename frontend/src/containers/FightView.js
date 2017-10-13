@@ -246,7 +246,7 @@ export default class FightView extends Component {
     }
   };
   // Sound control ====================================
-  _changeMusic() {
+  _changeMusic = () => {
     const num = Math.floor(Math.random() * 3);
     const arrayOfMusic = [
       "/fx/battle1.mp3",
@@ -278,5 +278,6 @@ export default class FightView extends Component {
     </div>
 
     );
+  }
   }
 }
