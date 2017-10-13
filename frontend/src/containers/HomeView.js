@@ -29,6 +29,7 @@ export default class HomeView extends Component {
             type="username"
             className="username"
             id="username"
+            required
           />
           <button type="submit" className="form-button" id="button">
             Submit
@@ -59,8 +60,8 @@ export default class HomeView extends Component {
     await oneSecondDelay();
     document.querySelector(".instructions-container").classList.remove("op-0");
     document.querySelector(".instructions-container").classList.add("op-1");
-  }
-  componentDidMount(){
+  };
+  componentDidMount() {
     this.fadeInDivs();
   }
   render() {
@@ -73,7 +74,11 @@ export default class HomeView extends Component {
         {this._handleStartGame()}
         <div className="instructions-container op-0">
           <p className="instTitle">Instructions</p>
-          <p>Get your retribution on those darned, dirty robots that have brought you pain and suffering. Use your sick moves to smash them to bits, and delete them from the very databases they've plagued for eons.</p>
+          <p>
+            Get your retribution on those darned, dirty robots that have brought
+            you pain and suffering. Use your sick moves to smash them to bits,
+            and delete them from the very databases they've plagued for eons.
+          </p>
         </div>
       </div>
     );
