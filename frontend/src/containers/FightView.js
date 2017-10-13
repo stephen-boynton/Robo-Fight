@@ -28,8 +28,9 @@ export default class FightView extends Component {
       image: "https://robohash.org/IGX.png?set=set1",
       name: "MAXIMUM_Max"
     },
-    moves: ["Chop", "BoltBreaker", "Block"],
+    moves: ["Chop", "Boltbuster", "Block"],
     playerTurn: true,
+    battleMusic: this._changeMusic(),
     wins: 0,
     currentRound: 1,
     fightLog: `The two opponents are ready for battle!`,
@@ -67,6 +68,17 @@ export default class FightView extends Component {
     }
   };
 
+  _handleClick = evt => {
+    if (this.state.playerTurn) {
+      this._handleMove(evt.target.value);
+    const playSong = (move) => {
+      const audio = document.getElementById('audio')
+      audio.setAttribute("src", `/fx/${move}.mp3`)
+      console.log("audio", audio);
+      audio.play()
+    }
+    playSong(evt.target.value);
+    }
   _isRobotDefeated = () => {
     return this.state.robot.hp <= 0;
   };
@@ -169,7 +181,7 @@ export default class FightView extends Component {
             this._enemyTurn();
             break;
           }
-        case "Roundhouse Kick":
+        case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critRobot();
             if (this._isRobotDefeated()) {
@@ -212,7 +224,7 @@ export default class FightView extends Component {
             });
             break;
           }
-        case "Roundhouse Kick":
+        case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critPlayer();
             break;
@@ -233,10 +245,25 @@ export default class FightView extends Component {
       }
     }
   };
+  // Sound control ====================================
+  _changeMusic() {
+    const num = Math.floor(Math.random() * 3);
+    const arrayOfMusic = [
+      "/fx/battle1.mp3",
+      "/fx/battle2.mp3",
+      "/fx/battle3.mp3"
+    ];
+    console.log(arrayOfMusic[num]);
+    return arrayOfMusic[num];
+  }
+
   // Render method ====================================
   render() {
     return (
+      <div>
+      <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
       <div className="FightView">
+        <audio id="music" src={this.state.battleMusic} autoPlay />
         {this._handleNewRound()}
         <HealthDisplay
           player={this.state.player}
@@ -248,6 +275,8 @@ export default class FightView extends Component {
         <FightLog message={this.state.fightLog} />
         <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
+    </div>
+
     );
   }
 }
