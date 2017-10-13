@@ -30,6 +30,7 @@ export default class FightView extends Component {
     },
     moves: ["Chop", "BoltBreaker", "Block"],
     playerTurn: true,
+    battleMusic: this._changeMusic(),
     wins: 0,
     currentRound: 1,
     fightLog: `The two opponents are ready for battle!`,
@@ -233,10 +234,23 @@ export default class FightView extends Component {
       }
     }
   };
+  // Sound control ====================================
+  _changeMusic() {
+    const num = Math.floor(Math.random() * 3);
+    const arrayOfMusic = [
+      "/fx/battle1.mp3",
+      "/fx/battle2.mp3",
+      "/fx/battle3.mp3"
+    ];
+    console.log(arrayOfMusic[num]);
+    return arrayOfMusic[num];
+  }
+
   // Render method ====================================
   render() {
     return (
       <div className="FightView">
+        <audio id="music" src={this.state.battleMusic} autoPlay />
         {this._handleNewRound()}
         <HealthDisplay
           player={this.state.player}
