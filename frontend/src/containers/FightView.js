@@ -13,7 +13,8 @@ import {
 import {
   oneSecondDelay,
   twoSecondDelay,
-  threeSecondDelay
+  threeSecondDelay,
+  customeDelay
 } from "../helpers/delayHelpers";
 import "../styles/FightView.css";
 
@@ -31,6 +32,7 @@ export default class FightView extends Component {
     playerTurn: true,
     wins: 0,
     currentRound: 1,
+    fightLog: `The two opponents are ready for battle!`,
     totalRounds: 10,
     movieAudio: ""
   };
@@ -41,19 +43,17 @@ export default class FightView extends Component {
     this.setState({ newRound: false });
   };
 
-  _enemyTurn = async () => {
-    await oneSecondDelay();
-    let enemyMove = enemyTurn();
-    this._handleMove(enemyMove);
-    await oneSecondDelay();
-    this.setState({ playerTurn: true });
+  _handleClick = evt => {
+    if (this.state.playerTurn) {
+      this._handleMove(evt.target.value);
+    }
   };
 
   componentDidMount() {
     // fake fetch timing
     this._fakeFetch();
   }
-
+  // Round control =================================
   _handleNewRound = () => {
     if (this.state.newRound) {
       return (
@@ -78,11 +78,30 @@ export default class FightView extends Component {
     }
     playSong(evt.target.value);
     }
+  _isRobotDefeated = () => {
+    return this.state.robot.hp <= 0;
   };
 
+  _handleRoundEnd = () => {
+    this.setState({
+      currentRound: this.state.currentRound + 1,
+      fightLog: `101010100101010101 - It insults you!`,
+      newRound: true,
+      playerTurn: true,
+      robot: {
+        ...this.state.robot,
+        hp: 4
+      }
+    });
+    this._fakeFetch();
+  };
+
+  // Health control ==================================
   _damagePlayer = () => {
     const playerHp = this.state.player.hp;
     this.setState({
+      fightLog: `${this.state.robot.name} struck ${this.state.player
+        .name} with BinaryAttack!`,
       player: {
         ...this.state.player,
         hp: playerHp - 1
@@ -93,6 +112,8 @@ export default class FightView extends Component {
   _critPlayer = () => {
     const playerHp = this.state.player.hp;
     this.setState({
+      fightLog: `${this.state.robot.name} struck ${this.state.player
+        .name} with NeckReprocesser!`,
       player: {
         ...this.state.player,
         hp: playerHp - 2
@@ -103,6 +124,8 @@ export default class FightView extends Component {
   _damageRobot = () => {
     const roboHp = this.state.robot.hp;
     this.setState({
+      fightLog: `${this.state.player.name} struck ${this.state.robot
+        .name} with a karate chop!`,
       robot: {
         ...this.state.robot,
         hp: roboHp - 1
@@ -114,6 +137,8 @@ export default class FightView extends Component {
   _critRobot = () => {
     const roboHp = this.state.robot.hp;
     this.setState({
+      fightLog: `${this.state.player.name} struck ${this.state.robot
+        .name} with BoltBreaker!`,
       robot: {
         ...this.state.robot,
         hp: roboHp - 2
@@ -122,26 +147,52 @@ export default class FightView extends Component {
     });
   };
 
+  // Game action control ===========================
+
+  _enemyTurn = async () => {
+    console.log("Enemy turn!");
+    await customeDelay(3);
+    let enemyMove = enemyTurn();
+    this._handleMove(enemyMove);
+    this.setState({ playerTurn: true });
+  };
+
   _handleMove = moveName => {
+    console.log(this.state.playerTurn);
     if (this.state.playerTurn) {
+      //Player turn----------------------
       switch (moveName) {
         case "Chop":
           if (punchChanceToHit()) {
             this._damageRobot();
+            console.log(this._isRobotDefeated());
+            if (this._isRobotDefeated()) {
+              this._handleRoundEnd();
+              break;
+            }
             this._enemyTurn();
             break;
           } else {
-            //miss
+            this.setState({
+              fightLog: `${this.state.player
+                .name} tries to do something resembling karate...`
+            });
             this._enemyTurn();
             break;
           }
         case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critRobot();
+            if (this._isRobotDefeated()) {
+              this._handleRoundEnd();
+              break;
+            }
             this._enemyTurn();
             break;
           } else {
-            //miss
+            this.setState({
+              fightLog: `${this.state.player.name} attacks... the air!`
+            });
             this._enemyTurn();
             break;
           }
@@ -151,20 +202,25 @@ export default class FightView extends Component {
             this._enemyTurn();
             break;
           } else {
-            //miss
+            this.setState({
+              fightLog: `${this.state.player.name} attacks... the air!`
+            });
             this._enemyTurn();
             break;
           }
       }
     } else if (!this.state.playerTurn) {
-      //Robots turn -------------------------------------------------
+      //Robot turn --------------------
       switch (moveName) {
         case "Chop":
           if (punchChanceToHit()) {
             this._damagePlayer();
             break;
           } else {
-            //miss
+            this.setState({
+              fightLog: `${this.state.robot
+                .name} computes the efficiency of sliced bread...`
+            });
             break;
           }
         case "Boltbuster":
@@ -172,7 +228,9 @@ export default class FightView extends Component {
             this._critPlayer();
             break;
           } else {
-            //miss
+            this.setState({
+              fightLog: `${this.state.robot.name} stands still menancingly...`
+            });
             break;
           }
         case "Block":
@@ -186,7 +244,7 @@ export default class FightView extends Component {
       }
     }
   };
-
+  // Render method ====================================
   render() {
     return (
       <div>
@@ -200,12 +258,8 @@ export default class FightView extends Component {
           total={this.state.totalRounds}
         />
         <Robot robot={this.state.robot} />
-        {<FightLog />}
-        <Moves
-          moves={this.state.moves}
-          turn={this.state.playerTurn}
-          handleClick={this._handleClick}
-        />
+        <FightLog message={this.state.fightLog} />
+        <Moves moves={this.state.moves} handleClick={this._handleClick} />
       </div>
     </div>
 

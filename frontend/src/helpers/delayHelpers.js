@@ -15,3 +15,10 @@ export function oneSecondDelay() {
     setTimeout(resolve, 1000);
   });
 }
+
+export function customeDelay(num) {
+  const time = num * 1000;
+  return new Promise(resolve => {
+    setTimeout(resolve, time);
+  });
+}
