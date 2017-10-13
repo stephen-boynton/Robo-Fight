@@ -1,34 +1,12 @@
-import React, { Component } from 'react';
-import '../styles/App.css';
+import React from "react";
+import "../styles/FightLog.css";
 
-class FightLog extends Component {
-
-  state={
-    log: []
-  }
-
-  // componentDidUpdate(prevProps, prevState){
-  //   let newLog = prevState.log;
-  //   newLog.unshift(this.props.fightText)
-  //   if(newLog.length > 5){
-  //     newLog.pop();
-  //   }
-  //   this.setState({
-  //     log: newLog
-  //   })
-  // }
-
-  render() {
-    return (
-      <div className="FightLog">
-        <ul className="logUl">
-          {this.state.log.map((item)=>{
-            // <FightLogItem text={item}/>
-          })}
-        </ul>
-      </div>
-    );
-  }
+function FightLog(props) {
+  return (
+    <div className="FightLog">
+      <p>{props.message}</p>
+    </div>
+  );
 }
 
 export default FightLog;

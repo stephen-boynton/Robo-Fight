@@ -17,7 +17,7 @@ class Moves extends Component {
             <button
               value={move}
               key={move}
-              onClick={this.props.turn ? this.props.handleClick : null}
+              onClick={this.props.handleClick}
               className="moveBtn"
             >
               {move}
