@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "../styles/HomeView.css";
+import {
+  oneSecondDelay,
+  twoSecondDelay,
+  threeSecondDelay,
+  customeDelay
+} from "../helpers/delayHelpers";
 
 export default class HomeView extends Component {
   state = {
@@ -14,7 +20,7 @@ export default class HomeView extends Component {
   _handleStartGame = () => {
     if (this.props.enterName) {
       return (
-        <form className="form" onSubmit={this._getPlayerName}>
+        <form className="form op-0" onSubmit={this._getPlayerName}>
           <label className="username-label">
             What is your name, oh great deleter?
           </label>
@@ -43,19 +49,31 @@ export default class HomeView extends Component {
     }
   };
 
+  fadeInDivs = async () => {
+    await oneSecondDelay();
+    document.querySelector(".homeTitle").classList.remove("op-0");
+    document.querySelector(".homeTitle").classList.add("op-1");
+    await oneSecondDelay();
+    document.querySelector(".form").classList.remove("op-0");
+    document.querySelector(".form").classList.add("op-1");
+    await oneSecondDelay();
+    document.querySelector(".instructions-container").classList.remove("op-0");
+    document.querySelector(".instructions-container").classList.add("op-1");
+  }
+  componentDidMount(){
+    this.fadeInDivs();
+  }
   render() {
     return (
       <div className="HomeView">
-        <audio src={this.state.titleMusic} autoPlay />
-
-        <div className="homeTitle">
+        <div className="homeTitle op-0">
           <h1>ROBO-FIGHT 4</h1>
           <h3>Redo This</h3>
         </div>
         {this._handleStartGame()}
-        <div className="instructions-container">
-          <p>Do you hate robots? Are you ready for REVENGE? Enter a username and press start.
-          Kick bot by choosing an attack method of choice. Remember ALL ROBOTS MUST DIE! Are you ready?</p>
+        <div className="instructions-container op-0">
+          <p className="instTitle">Instructions</p>
+          <p>Get your retribution on those darned, dirty robots that have brought you pain and suffering. Use your sick moves to smash them to bits, and delete them from the very databases they've plagued for eons.</p>
         </div>
       </div>
     );

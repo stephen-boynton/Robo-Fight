@@ -74,7 +74,6 @@ export default class FightView extends Component {
       const playSong = move => {
         const audio = document.getElementById("audio");
         audio.setAttribute("src", `/fx/${move}.mp3`);
-        console.log("audio", audio);
         audio.play();
       };
       playSong(evt.target.value);
@@ -153,6 +152,7 @@ export default class FightView extends Component {
 
   _enemyTurn = async () => {
     console.log("Enemy turn!");
+    this.setState({ playerTurn: false });
     await customeDelay(3);
     let enemyMove = enemyTurn();
     this._handleMove(enemyMove);
@@ -160,6 +160,10 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
+<<<<<<< HEAD
+=======
+    console.log("Player turn: ", this.state.playerTurn);
+>>>>>>> 78da2bbf691167ff16dfc6136d17265e3e46029f
     if (this.state.playerTurn) {
       //Player turn----------------------
       switch (moveName) {
@@ -211,6 +215,7 @@ export default class FightView extends Component {
           }
       }
     } else if (!this.state.playerTurn) {
+      console.log("Enemy Move = ", moveName)
       //Robot turn --------------------
       switch (moveName) {
         case "Chop":
@@ -246,7 +251,7 @@ export default class FightView extends Component {
     }
   };
   // Sound control ====================================
-  _changeMusic() {
+  _changeMusic(){
     const num = Math.floor(Math.random() * 3);
     const arrayOfMusic = [
       "/fx/battle1.mp3",
@@ -279,3 +284,4 @@ export default class FightView extends Component {
     );
   }
 }
+
