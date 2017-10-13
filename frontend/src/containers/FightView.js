@@ -71,14 +71,15 @@ export default class FightView extends Component {
   _handleClick = evt => {
     if (this.state.playerTurn) {
       this._handleMove(evt.target.value);
-    const playSong = (move) => {
-      const audio = document.getElementById('audio')
-      audio.setAttribute("src", `/fx/${move}.mp3`)
-      console.log("audio", audio);
-      audio.play()
+      const playSong = move => {
+        const audio = document.getElementById("audio");
+        audio.setAttribute("src", `/fx/${move}.mp3`);
+        console.log("audio", audio);
+        audio.play();
+      };
+      playSong(evt.target.value);
     }
-    playSong(evt.target.value);
-    }
+  };
   _isRobotDefeated = () => {
     return this.state.robot.hp <= 0;
   };
@@ -261,22 +262,21 @@ export default class FightView extends Component {
   render() {
     return (
       <div>
-      <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
-      <div className="FightView">
-        <audio id="music" src={this.state.battleMusic} autoPlay />
-        {this._handleNewRound()}
-        <HealthDisplay
-          player={this.state.player}
-          robot={this.state.robot}
-          current={this.state.currentRound}
-          total={this.state.totalRounds}
-        />
-        <Robot robot={this.state.robot} />
-        <FightLog message={this.state.fightLog} />
-        <Moves moves={this.state.moves} handleClick={this._handleClick} />
+        <audio id="audio" src={this.state.moveAudio} autostart="true" />
+        <div className="FightView">
+          <audio id="music" src={this.state.battleMusic} autoPlay />
+          {this._handleNewRound()}
+          <HealthDisplay
+            player={this.state.player}
+            robot={this.state.robot}
+            current={this.state.currentRound}
+            total={this.state.totalRounds}
+          />
+          <Robot robot={this.state.robot} />
+          <FightLog message={this.state.fightLog} />
+          <Moves moves={this.state.moves} handleClick={this._handleClick} />
+        </div>
       </div>
-    </div>
-
     );
   }
 }
