@@ -54,6 +54,7 @@ export default class FightView extends Component {
     // fake fetch timing
     this._fakeFetch();
   }
+
   // Round control =================================
   _handleNewRound = () => {
     if (this.state.newRound) {
@@ -83,7 +84,8 @@ export default class FightView extends Component {
     return this.state.robot.hp <= 0;
   };
 
-  _handleRoundEnd = () => {
+  _handleRoundEnd = async () => {
+    await this._defeatRobotAnim();
     this.setState({
       currentRound: this.state.currentRound + 1,
       fightLog: `101010100101010101 - It insults you!`,
@@ -98,31 +100,43 @@ export default class FightView extends Component {
   };
 
   // Health control ==================================
-  _damagePlayer = () => {
-    const playerHp = this.state.player.hp;
-    this.setState({
-      fightLog: `${this.state.robot.name} struck ${this.state.player
-        .name} with BinaryAttack!`,
-      player: {
-        ...this.state.player,
-        hp: playerHp - 1
-      }
-    });
+  _damagePlayer = async () => {
+    if (this._isRobotDefeated()) {
+      console.log("Defeated!");
+      this._handleRoundEnd();
+    } else {
+      const playerHp = this.state.player.hp;
+      this.setState({
+        fightLog: `${this.state.robot.name} struck ${this.state.player
+          .name} with BinaryAttack!`,
+        player: {
+          ...this.state.player,
+          hp: playerHp - 1
+        }
+      });
+      await this._struckPlayerAnim();
+    }
   };
 
-  _critPlayer = () => {
-    const playerHp = this.state.player.hp;
-    this.setState({
-      fightLog: `${this.state.robot.name} struck ${this.state.player
-        .name} with NeckReprocesser!`,
-      player: {
-        ...this.state.player,
-        hp: playerHp - 2
-      }
-    });
+  _critPlayer = async () => {
+    if (this._isRobotDefeated()) {
+      console.log("Defeated!");
+      this._handleRoundEnd();
+    } else {
+      const playerHp = this.state.player.hp;
+      this.setState({
+        fightLog: `${this.state.robot.name} struck ${this.state.player
+          .name} with NeckReprocesser!`,
+        player: {
+          ...this.state.player,
+          hp: playerHp - 2
+        }
+      });
+      await this._struckPlayerAnim();
+    }
   };
 
-  _damageRobot = () => {
+  _damageRobot = async () => {
     const roboHp = this.state.robot.hp;
     this.setState({
       fightLog: `${this.state.player.name} struck ${this.state.robot
@@ -133,9 +147,10 @@ export default class FightView extends Component {
       },
       playerTurn: false
     });
+    await this._struckRobotAnim();
   };
 
-  _critRobot = () => {
+  _critRobot = async () => {
     const roboHp = this.state.robot.hp;
     this.setState({
       fightLog: `${this.state.player.name} struck ${this.state.robot
@@ -146,6 +161,7 @@ export default class FightView extends Component {
       },
       playerTurn: false
     });
+    await this._devestateRobotAnim();
   };
 
   // Game action control ===========================
@@ -160,21 +176,12 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
-<<<<<<< HEAD
-=======
-    console.log("Player turn: ", this.state.playerTurn);
->>>>>>> 78da2bbf691167ff16dfc6136d17265e3e46029f
     if (this.state.playerTurn) {
       //Player turn----------------------
       switch (moveName) {
         case "Chop":
           if (punchChanceToHit()) {
             this._damageRobot();
-            console.log(this._isRobotDefeated());
-            if (this._isRobotDefeated()) {
-              this._handleRoundEnd();
-              break;
-            }
             this._enemyTurn();
             break;
           } else {
@@ -188,10 +195,6 @@ export default class FightView extends Component {
         case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critRobot();
-            if (this._isRobotDefeated()) {
-              this._handleRoundEnd();
-              break;
-            }
             this._enemyTurn();
             break;
           } else {
@@ -215,7 +218,7 @@ export default class FightView extends Component {
           }
       }
     } else if (!this.state.playerTurn) {
-      console.log("Enemy Move = ", moveName)
+      console.log("Enemy Move = ", moveName);
       //Robot turn --------------------
       switch (moveName) {
         case "Chop":
@@ -251,7 +254,7 @@ export default class FightView extends Component {
     }
   };
   // Sound control ====================================
-  _changeMusic(){
+  _changeMusic() {
     const num = Math.floor(Math.random() * 3);
     const arrayOfMusic = [
       "/fx/battle1.mp3",
@@ -261,12 +264,46 @@ export default class FightView extends Component {
     console.log(arrayOfMusic[num]);
     return arrayOfMusic[num];
   }
+  // Animations =======================================
+  _struckPlayerAnim = async () => {
+    console.log("Struck!");
+    const screen = document.querySelector(".FightView");
+    const sound = document.getElementById("soundFX");
+    sound.setAttribute("src", "/fx/devastate.wav");
+    sound.play();
+    screen.classList.toggle("struck");
+    await customeDelay(2);
+    screen.classList.toggle("struck");
+  };
+
+  _struckRobotAnim = async () => {
+    const robo = document.querySelector(".Robot");
+    robo.classList.toggle("struckRobo");
+    await customeDelay(2);
+    robo.classList.toggle("struckRobo");
+  };
+
+  _devestateRobotAnim = async () => {
+    const robo = document.querySelector(".Robot");
+    robo.classList.toggle("devestateRobo");
+    await customeDelay(2);
+    robo.classList.toggle("devestateRobo");
+  };
+
+  _defeatRobotAnim = async () => {
+    const robo = document.querySelector(".Robot");
+    robo.classList.toggle("death");
+    await customeDelay(2);
+    robo.classList.toggle("death");
+  };
 
   // Render method ====================================
   render() {
     return (
       <div>
         <audio id="audio" src={this.state.moveAudio} autostart="true" />
+        <audio id="soundFX" src="" autostart="true" />
+
         <div className="FightView">
           <audio id="music" src={this.state.battleMusic} autoPlay />
           {this._handleNewRound()}
@@ -284,4 +321,3 @@ export default class FightView extends Component {
     );
   }
 }
-
