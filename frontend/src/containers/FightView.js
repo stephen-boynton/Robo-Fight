@@ -27,7 +27,7 @@ export default class FightView extends Component {
       image: "https://robohash.org/IGX.png?set=set1",
       name: "MAXIMUM_Max"
     },
-    moves: ["Chop", "Roundhouse Kick", "Block"],
+    moves: ["Chop", "Boltbuster", "Block"],
     playerTurn: true,
     wins: 0,
     currentRound: 1,
@@ -70,42 +70,16 @@ export default class FightView extends Component {
   _handleClick = evt => {
     if (this.state.playerTurn) {
       this._handleMove(evt.target.value);
+    const playSong = (move) => {
+      const audio = document.getElementById('audio')
+      audio.setAttribute("src", `/fx/${move}.mp3`)
+      console.log("audio", audio);
+      audio.play()
+    }
+    playSong(evt.target.value);
     }
   };
 
-<<<<<<< HEAD
-  _handleMove = moveName => {
-    let turn = this.state.playerTurn
-    let fighter = turn ? 1 : 0;
-    let oldHp = this.state.fighters[fighter].hp
-    switch (moveName) {
-      case "Chop":
-        if (punchChanceToHit()) {
-
-          this.state.fighters[fighter].hp = oldHp - 1;
-          this.state.playerTurn = !turn;
-          console.log(this.state.fighters[fighter].fighterType + "was hit by Chop");
-          this.forceUpdate();
-        }
-
-        break;
-      case "Roundhouse Kick":
-        if (bigPunchChanceToHit()) {
-          this.state.fighters[fighter].hp = oldHp - 2;
-          this.state.playerTurn = !turn;
-          console.log(this.state.fighters[fighter].fighterType + "was hit by RK");
-          this.forceUpdate();
-        }
-        break;
-      case "Block":
-        if (blockChanceToHit()) {
-          this.state.fighters[fighter].hp = oldHp;
-          this.state.playerTurn = !turn;
-          this.forceUpdate();
-        }
-        break;
-    }
-=======
   _damagePlayer = () => {
     const playerHp = this.state.player.hp;
     this.setState({
@@ -146,7 +120,6 @@ export default class FightView extends Component {
       },
       playerTurn: false
     });
->>>>>>> 57595c7c1cab24c006527497c94df0ad181091cd
   };
 
   _handleMove = moveName => {
@@ -162,7 +135,7 @@ export default class FightView extends Component {
             this._enemyTurn();
             break;
           }
-        case "Roundhouse Kick":
+        case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critRobot();
             this._enemyTurn();
@@ -194,7 +167,7 @@ export default class FightView extends Component {
             //miss
             break;
           }
-        case "Roundhouse Kick":
+        case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critPlayer();
             break;
@@ -216,7 +189,8 @@ export default class FightView extends Component {
 
   render() {
     return (
-      // <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
+      <div>
+      <audio id="audio" src={this.state.moveAudio} autostart="true"></audio>
       <div className="FightView">
         {this._handleNewRound()}
         <HealthDisplay
@@ -233,6 +207,8 @@ export default class FightView extends Component {
           handleClick={this._handleClick}
         />
       </div>
+    </div>
+
     );
   }
 }
