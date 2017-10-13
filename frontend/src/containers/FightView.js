@@ -160,7 +160,6 @@ export default class FightView extends Component {
   };
 
   _handleMove = moveName => {
-    console.log(this.state.playerTurn);
     if (this.state.playerTurn) {
       //Player turn----------------------
       switch (moveName) {
