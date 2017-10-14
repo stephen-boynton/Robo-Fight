@@ -269,7 +269,7 @@ export default class FightView extends Component {
     console.log("Struck!");
     const screen = document.querySelector(".FightView");
     const sound = document.getElementById("soundFX");
-    sound.setAttribute("src", "/fx/devastate.wav");
+    sound.setAttribute("src", "/fx/robotcrit.mp3");
     sound.play();
     screen.classList.toggle("struck");
     await customeDelay(2);
@@ -302,7 +302,7 @@ export default class FightView extends Component {
     return (
       <div>
         <audio id="audio" src={this.state.moveAudio} autostart="true" />
-        <audio id="soundFX" src="" autostart="true" />
+        <audio id="soundFX" src="" autoPlay />
 
         <div className="FightView">
           <audio id="music" src={this.state.battleMusic} autoPlay />
