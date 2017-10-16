@@ -91,6 +91,7 @@ export default class FightView extends Component {
       fightLog: `101010100101010101 - It insults you!`,
       newRound: true,
       playerTurn: true,
+      battleMusic: this._changeMusic(),
       robot: {
         ...this.state.robot,
         hp: 4
@@ -226,28 +227,38 @@ export default class FightView extends Component {
             this._damagePlayer();
             break;
           } else {
-            this.setState({
-              fightLog: `${this.state.robot
-                .name} computes the efficiency of sliced bread...`
-            });
-            break;
+            if (this._isRobotDefeated()) {
+              this._handleRoundEnd();
+            } else {
+              this.setState({
+                fightLog: `${this.state.robot
+                  .name} computes the efficiency of sliced bread...`
+              });
+              break;
+            }
           }
         case "Boltbuster":
           if (bigPunchChanceToHit()) {
             this._critPlayer();
             break;
           } else {
-            this.setState({
-              fightLog: `${this.state.robot.name} stands still menancingly...`
-            });
-            break;
+            if (this._isRobotDefeated()) {
+              this._handleRoundEnd();
+            } else {
+              this.setState({
+                fightLog: `${this.state.robot.name} stands still menancingly...`
+              });
+              break;
+            }
           }
         case "Block":
           if (blockChanceToHit()) {
             this._damagePlayer();
             break;
           } else {
-            //miss
+            if (this._isRobotDefeated()) {
+              this._handleRoundEnd();
+            }
             break;
           }
       }
