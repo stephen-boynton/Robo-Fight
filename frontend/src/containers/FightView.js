@@ -5,6 +5,7 @@ import Robot from "../components/Robot";
 import FightLog from "../components/FightLog";
 import RoundOverlay from "../components/RoundOverlay";
 import Moves from "../components/Moves";
+import robotdata from "../data/robodata";
 import {
   punchChanceToHit,
   bigPunchChanceToHit,
@@ -15,7 +16,7 @@ import {
   oneSecondDelay,
   twoSecondDelay,
   threeSecondDelay,
-  customeDelay
+  customDelay
 } from "../helpers/delayHelpers";
 import "../styles/FightView.css";
 
@@ -26,8 +27,8 @@ export default class FightView extends Component {
     robot: {
       hp: 4,
       maxHp: 4,
-      image: "https://robohash.org/IGX.png?set=set1",
-      name: "MAXIMUM_Max"
+      image: robotdata[0].avatar,
+      name: robotdata[0].username
     },
     moves: ["Chop", "Boltbuster", "Block"],
     playerTurn: true,
@@ -35,14 +36,21 @@ export default class FightView extends Component {
     wins: 0,
     currentRound: 1,
     fightLog: `The two opponents are ready for battle!`,
-    totalRounds: 10,
-    movieAudio: ""
+    totalRounds: 10
   };
 
   ////////////// Handler Functions  //////////////////////
   _fakeFetch = async () => {
     await threeSecondDelay();
-    this.setState({ newRound: false, playerTurn: true });
+    this.setState({
+      newRound: false,
+      playerTurn: true,
+      robot: {
+        ...this.state.robot,
+        image: robotdata[this.state.wins].avatar,
+        name: robotdata[this.state.wins].username
+      }
+    });
   };
 
   _handleClick = evt => {
@@ -97,7 +105,8 @@ export default class FightView extends Component {
         ...this.state.robot,
         hp: 4
       },
-      gameover: false
+      gameover: false,
+      wins: this.state.wins + 1
     });
     await this._fakeFetch();
   };
@@ -142,7 +151,7 @@ export default class FightView extends Component {
       const playerHp = this.state.player.hp;
       this.setState({
         fightLog: `${this.state.robot.name} struck ${this.state.player
-          .name} with NeckReprocesser!`,
+          .name} with ${robotdata[this.state.wins].skills[0]}!`,
         player: {
           ...this.state.player,
           hp: playerHp - 2
@@ -188,7 +197,7 @@ export default class FightView extends Component {
   _enemyTurn = async () => {
     console.log("Enemy turn!");
     this.setState({ playerTurn: false });
-    await customeDelay(3);
+    await customDelay(3);
     let enemyMove = enemyTurn();
     this._handleMove(enemyMove);
     this.setState({ playerTurn: true });
@@ -247,6 +256,7 @@ export default class FightView extends Component {
           } else {
             if (this._isRobotDefeated()) {
               this._handleRoundEnd();
+              break;
             } else {
               this.setState({
                 fightLog: `${this.state.robot
@@ -262,6 +272,7 @@ export default class FightView extends Component {
           } else {
             if (this._isRobotDefeated()) {
               this._handleRoundEnd();
+              break;
             } else {
               this.setState({
                 fightLog: `${this.state.robot.name} stands still menancingly...`
@@ -301,28 +312,28 @@ export default class FightView extends Component {
     sound.setAttribute("src", "/fx/chop.mp3");
     sound.play();
     screen.classList.toggle("struck");
-    await customeDelay(2);
+    await customDelay(2);
     screen.classList.toggle("struck");
   };
 
   _struckRobotAnim = async () => {
     const robo = document.querySelector(".Robot");
     robo.classList.toggle("struckRobo");
-    await customeDelay(2);
+    await customDelay(2);
     robo.classList.toggle("struckRobo");
   };
 
   _devestateRobotAnim = async () => {
     const robo = document.querySelector(".Robot");
     robo.classList.toggle("devestateRobo");
-    await customeDelay(2);
+    await customDelay(2);
     robo.classList.toggle("devestateRobo");
   };
 
   _defeatRobotAnim = async () => {
     const robo = document.querySelector(".Robot");
     robo.classList.toggle("death");
-    await customeDelay(2);
+    await customDelay(2);
     robo.classList.toggle("death");
   };
 

@@ -16,7 +16,7 @@ export function oneSecondDelay() {
   });
 }
 
-export function customeDelay(num) {
+export function customDelay(num) {
   const time = num * 1000;
   return new Promise(resolve => {
     setTimeout(resolve, time);
