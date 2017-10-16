@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import HealthDisplay from "../components/HealthDisplay";
+import { Redirect } from "react-router-dom";
 import Robot from "../components/Robot";
 import FightLog from "../components/FightLog";
 import RoundOverlay from "../components/RoundOverlay";
@@ -41,7 +42,7 @@ export default class FightView extends Component {
   ////////////// Handler Functions  //////////////////////
   _fakeFetch = async () => {
     await threeSecondDelay();
-    this.setState({ newRound: false });
+    this.setState({ newRound: false, playerTurn: true });
   };
 
   _handleClick = evt => {
@@ -90,14 +91,23 @@ export default class FightView extends Component {
       currentRound: this.state.currentRound + 1,
       fightLog: `101010100101010101 - It insults you!`,
       newRound: true,
-      playerTurn: true,
+      playerTurn: false,
       battleMusic: this._changeMusic(),
       robot: {
         ...this.state.robot,
         hp: 4
-      }
+      },
+      gameover: false
     });
-    this._fakeFetch();
+    await this._fakeFetch();
+  };
+
+  _isPlayerDead = () => {
+    return this.player.hp <= 0;
+  };
+
+  _handleGameOver = async () => {
+    if (this.state.gameover) return <Redirect to="/gameover" />;
   };
 
   // Health control ==================================
@@ -116,6 +126,11 @@ export default class FightView extends Component {
         }
       });
       await this._struckPlayerAnim();
+      if (this._isPlayerDead) {
+        this.setState({
+          gameover: true
+        });
+      }
     }
   };
 
@@ -134,6 +149,9 @@ export default class FightView extends Component {
         }
       });
       await this._struckPlayerAnim();
+      if (this._isPlayerDead) {
+        this.setState({ gameover: true });
+      }
     }
   };
 
@@ -314,7 +332,6 @@ export default class FightView extends Component {
       <div>
         <audio id="audio" src={this.state.moveAudio} autostart="true" />
         <audio id="soundFX" src="/fx/chop.mp3" autostart="true" />
-
         <div className="FightView">
           <audio id="music" src={this.state.battleMusic} autoPlay />
           {this._handleNewRound()}
