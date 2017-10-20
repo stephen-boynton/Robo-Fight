@@ -19,6 +19,7 @@ class App extends Component {
     console.log(this.state.player);
   };
   render() {
+    const baseUrl = process.env.PUBLIC_URL;
     return (
       <div className="App">
         <Switch>
@@ -31,7 +32,7 @@ class App extends Component {
           <Route exact path="/topscores" component={ScoresView} />
           <Route
             exact
-            path="/"
+            path={baseUrl + "/"}
             component={() => (
               <HomeView
                 enterName={this.state.enterName}
